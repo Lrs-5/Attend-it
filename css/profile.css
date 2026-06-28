@@ -1,0 +1,19 @@
+@import url("dashboard.css");
+.page-title{margin:0;font-size:18px;flex:1}
+.profile-hero{display:flex;align-items:center;gap:24px;padding:24px}
+.ph-photo{display:flex;flex-direction:column;align-items:center;gap:10px}
+.ph-meta h1{margin:0 0 6px;font-size:28px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:12px;background:rgba(255,255,255,.06);border:1px solid var(--stroke);padding:6px 12px;border-radius:999px;color:var(--ink-2)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+.form-grid label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.12em}
+.form-grid input{background:rgba(255,255,255,.04);border:1px solid var(--stroke);color:var(--ink);padding:11px 12px;border-radius:10px;outline:none;font-size:14px;transition:.2s}
+.form-grid input:focus{border-color:rgba(124,92,255,.7);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
+.form-grid input[disabled]{opacity:.7;cursor:not-allowed}
+.actions-row{display:flex;justify-content:flex-end;gap:10px;align-items:center}
+.card h3{margin:0 0 8px;font-size:16px}
+@media (max-width:780px){
+  .profile-hero{flex-direction:column;text-align:center}
+  .chips{justify-content:center}
+  .form-grid{grid-template-columns:1fr}
+}

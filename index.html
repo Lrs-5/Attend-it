@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nexus HRMS · Sign In</title>
+<link rel="stylesheet" href="css/login.css"/>
+</head>
+<body>
+  <!-- Animated gradient background + floating blobs -->
+  <div class="bg-gradient"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <!-- Loading screen -->
+  <div id="loader" class="loader hidden">
+    <div class="loader-ring"></div>
+    <p>Authenticating…</p>
+  </div>
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+  <main class="login-wrap">
+    <section class="glass-card login-card">
+      <header class="brand">
+        <div class="logo">
+          <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+            <defs>
+              <linearGradient id="lg" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#7c5cff"/>
+                <stop offset="1" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="40" height="40" rx="12" fill="url(#lg)"/>
+            <path d="M14 32V16h4l8 11V16h4v16h-4l-8-11v11z" fill="#fff"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Nexus HRMS</h1>
+          <p class="sub">Enterprise Attendance Suite</p>
+        </div>
+      </header>
+      <form id="loginForm" class="form" novalidate>
+        <div class="field">
+          <label for="username">Work Email or Username</label>
+          <input id="username" type="text" autocomplete="username" placeholder="jane.doe@nexus.com" required/>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="pw">
+            <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required/>
+            <button type="button" id="togglePw" class="pw-toggle" aria-label="Show password">
+              <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 110-10 5 5 0 010 10zm0-2a3 3 0 100-6 3 3 0 000 6z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="row between">
+          <label class="check">
+            <input type="checkbox" id="remember"/>
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="link" id="forgot">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary ripple">
+          <span>Sign In</span>
+        </button>
+        <button type="button" id="demoBtn" class="btn btn-ghost ripple">
+          <span>Use Demo Account</span>
+        </button>
+      </form>
+      <footer class="card-footer">
+        <span>© 2026 Nexus Technologies · v4.2.1</span>
+      </footer>
+    </section>
+  </main>
+  <script src="js/login.js"></script>
+</body>
+</html>

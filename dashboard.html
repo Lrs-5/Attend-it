@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard · Attend-It</title>
+<link rel="stylesheet" href="css/dashboard.css"/>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div id="loader" class="loader hidden"><div class="loader-ring"></div></div>
+  <div id="toast" class="toast"></div>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar glass" id="sidebar">
+      <div class="brand">
+        <div class="logo-sm">N</div>
+        <span>Attend-It</span>
+      </div>
+      <nav class="nav">
+        <a href="dashboard.html" class="nav-item active"><i data-icon="grid"></i><span>Dashboard</span></a>
+        <a href="attendance.html" class="nav-item"><i data-icon="calendar"></i><span>Attendance</span></a>
+        <a href="analytics.html" class="nav-item"><i data-icon="chart"></i><span>Analytics</span></a>
+        <a href="profile.html" class="nav-item"><i data-icon="user"></i><span>Profile</span></a>
+        <a href="settings.html" class="nav-item"><i data-icon="cog"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-foot">
+        <button class="btn btn-ghost ripple" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+    <!-- Main -->
+    <div class="main">
+      <header class="topbar glass">
+        <button class="icon-btn" id="menuBtn" aria-label="Toggle menu">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+        </button>
+        <div class="search">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 2a8 8 0 105.3 14.1l4.3 4.3 1.4-1.4-4.3-4.3A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
+          <input placeholder="Search employees, reports, requests…"/>
+        </div>
+        <div class="top-right">
+          <button class="icon-btn" title="Notifications">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5l-2 2v1h16v-1l-2-2z"/></svg>
+            <span class="dot"></span>
+          </button>
+          <div class="avatar" id="topAvatar">JD</div>
+        </div>
+      </header>
+      <section class="content">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">Welcome back</p>
+            <h1 id="welcomeName">Jane Doe</h1>
+            <p class="muted" id="dateLine"></p>
+          </div>
+          <div class="hero-actions">
+            <a href="attendance.html" class="btn btn-primary ripple">Mark Attendance</a>
+            <a href="analytics.html" class="btn btn-ghost ripple">View Analytics</a>
+          </div>
+        </div>
+        <div class="grid">
+          <!-- Profile + ring -->
+          <div class="card glass span-2">
+            <div class="card-head">
+              <h3>Attendance Overview</h3>
+              <span class="badge" id="monthBadge">—</span>
+            </div>
+            <div class="overview">
+              <div class="ring-wrap">
+                <svg class="ring" viewBox="0 0 120 120">
+                  <circle cx="60" cy="60" r="52" class="ring-bg"/>
+                  <circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/>
+                </svg>
+                <div class="ring-center">
+                  <span class="ring-value" id="attPct">0%</span>
+                  <span class="ring-label">Attendance</span>
+                </div>
+              </div>
+              <ul class="legend">
+                <li><span class="sw sw-present"></span>Office <b id="legOffice">0</b></li>
+                <li><span class="sw sw-wfh"></span>WFH <b id="legWfh">0</b></li>
+                <li><span class="sw sw-leave"></span>Leave <b id="legLeave">0</b></li>
+                <li><span class="sw sw-absent"></span>Absent <b id="legAbsent">0</b></li>
+                <li><span class="sw sw-remain"></span>Remaining <b id="legRemain">0</b></li>
+              </ul>
+            </div>
+          </div>
+          <!-- Employee card -->
+          <div class="card glass">
+            <div class="emp">
+              <div class="avatar lg" id="empAvatar">JD</div>
+              <div>
+                <h3 id="empName">Jane Doe</h3>
+                <p class="muted" id="empRole">Senior Engineer · Engineering</p>
+                <p class="muted" id="empId">EMP-00421</p>
+              </div>
+            </div>
+            <div class="streak">
+              <div>
+                <p class="muted">Current Streak</p>
+                <h2><span id="streakDays">0</span> days</h2>
+              </div>
+              <div class="flame">🔥</div>
+            </div>
+          </div>
+          <!-- Stat cards -->
+          <div class="card glass stat"><p class="muted">Today</p><h2 id="todayStatus">—</h2><span class="trend up">Live</span></div>
+          <div class="card glass stat"><p class="muted">Office Days</p><h2 data-counter id="sOffice">0</h2><span class="trend">this month</span></div>
+          <div class="card glass stat"><p class="muted">WFH Days</p><h2 data-counter id="sWfh">0</h2><span class="trend">this month</span></div>
+          <div class="card glass stat"><p class="muted">Paid Leave</p><h2 data-counter id="sLeave">0</h2><span class="trend">this month</span></div>
+          <div class="card glass stat"><p class="muted">Absent</p><h2 data-counter id="sAbsent">0</h2><span class="trend">this month</span></div>
+          <div class="card glass stat"><p class="muted">Remaining</p><h2 data-counter id="sRemain">0</h2><span class="trend">working days</span></div>
+          <!-- Quick actions -->
+          <div class="card glass span-2">
+            <div class="card-head"><h3>Quick Actions</h3></div>
+            <div class="quick-grid">
+              <a href="attendance.html" class="quick"><div class="qi qi-1"></div><span>Mark Today</span></a>
+              <a href="attendance.html" class="quick"><div class="qi qi-2"></div><span>Apply Leave</span></a>
+              <a href="analytics.html" class="quick"><div class="qi qi-3"></div><span>View Report</span></a>
+              <a href="profile.html" class="quick"><div class="qi qi-4"></div><span>Edit Profile</span></a>
+            </div>
+          </div>
+          <!-- Activity -->
+          <div class="card glass span-2">
+            <div class="card-head"><h3>Recent Activity</h3></div>
+            <ul class="timeline" id="timeline"></ul>
+          </div>
+          <!-- Monthly summary -->
+          <div class="card glass span-2">
+            <div class="card-head"><h3>Monthly Summary</h3></div>
+            <div class="bars">
+              <div class="bar-row"><span>Office</span><div class="bar"><div class="bar-fg bar-office" id="barOffice"></div></div><b id="pctOffice">0%</b></div>
+              <div class="bar-row"><span>WFH</span><div class="bar"><div class="bar-fg bar-wfh" id="barWfh"></div></div><b id="pctWfh">0%</b></div>
+              <div class="bar-row"><span>Leave</span><div class="bar"><div class="bar-fg bar-leave" id="barLeave"></div></div><b id="pctLeave">0%</b></div>
+              <div class="bar-row"><span>Absent</span><div class="bar"><div class="bar-fg bar-absent" id="barAbsent"></div></div><b id="pctAbsent">0%</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

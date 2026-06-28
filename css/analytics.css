@@ -1,0 +1,12 @@
+@import url("dashboard.css");
+.page-title{margin:0;font-size:18px;flex:1}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{display:flex;flex-direction:column;gap:4px}
+.kpi h2{margin:0;font-size:30px}
+canvas{width:100%;display:block}
+.insights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.insights li{padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--stroke);font-size:13px;color:var(--ink-2)}
+.insights li b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+#pbPunct,#pbCons,#pbOff,#pbScore{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand-2));border-radius:999px;transition:width 1.2s ease}
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}.insights{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.kpis{grid-template-columns:1fr}.insights{grid-template-columns:1fr}}

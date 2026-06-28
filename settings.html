@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Settings · Nexus HRMS</title>
+<link rel="stylesheet" href="css/settings.css"/>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div id="loader" class="loader hidden"><div class="loader-ring"></div></div>
+  <div id="toast" class="toast"></div>
+  <!-- Confirmation modal -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-card glass">
+      <h2 id="confirmTitle">Are you sure?</h2>
+      <p class="muted" id="confirmMsg">This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost ripple" id="confirmNo">Cancel</button>
+        <button class="btn btn-danger ripple" id="confirmYes">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <div class="app">
+    <aside class="sidebar glass" id="sidebar">
+      <div class="brand"><div class="logo-sm">N</div><span>Nexus HRMS</span></div>
+      <nav class="nav">
+        <a href="dashboard.html" class="nav-item">Dashboard</a>
+        <a href="attendance.html" class="nav-item">Attendance</a>
+        <a href="analytics.html" class="nav-item">Analytics</a>
+        <a href="profile.html" class="nav-item">Profile</a>
+        <a href="settings.html" class="nav-item active">Settings</a>
+      </nav>
+      <div class="sidebar-foot"><button class="btn btn-ghost ripple" id="logoutBtn">Logout</button></div>
+    </aside>
+    <div class="main">
+      <header class="topbar glass">
+        <button class="icon-btn" id="menuBtn">≡</button>
+        <h2 class="page-title">Settings</h2>
+        <div class="top-right"><div class="avatar" id="topAvatar">JD</div></div>
+      </header>
+      <section class="content">
+        <div class="card glass">
+          <h3>Appearance</h3>
+          <div class="row between">
+            <div><h4>Dark Mode</h4><p class="muted">Use the dark, frosted-glass theme.</p></div>
+            <label class="switch"><input type="checkbox" id="darkToggle"><span></span></label>
+          </div>
+        </div>
+        <div class="card glass">
+          <h3>Notifications</h3>
+          <div class="row between">
+            <div><h4>Enable Notifications</h4><p class="muted">Toast alerts for actions and reminders.</p></div>
+            <label class="switch"><input type="checkbox" id="notifToggle"><span></span></label>
+          </div>
+        </div>
+        <div class="card glass">
+          <h3>Data Management</h3>
+          <div class="row between">
+            <div><h4>Reset Attendance Data</h4><p class="muted">Clears calendar and monthly stats.</p></div>
+            <button class="btn btn-ghost ripple" data-action="resetAttendance">Reset</button>
+          </div>
+          <div class="row between">
+            <div><h4>Reset Profile</h4><p class="muted">Restores default profile information.</p></div>
+            <button class="btn btn-ghost ripple" data-action="resetProfile">Reset</button>
+          </div>
+          <div class="row between">
+            <div><h4>Clear All Local Data</h4><p class="muted">Wipes everything stored in this browser.</p></div>
+            <button class="btn btn-danger ripple" data-action="clearAll">Clear All</button>
+          </div>
+        </div>
+        <div class="card glass">
+          <h3>Session</h3>
+          <div class="row between">
+            <div><h4>Logout</h4><p class="muted">Sign out of this session.</p></div>
+            <button class="btn btn-danger ripple" data-action="logout">Logout</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="js/settings.js"></script>
+</body>
+</html>

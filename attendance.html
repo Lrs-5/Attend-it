@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Attendance · Nexus HRMS</title>
+<link rel="stylesheet" href="css/attendance.css"/>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div id="loader" class="loader hidden"><div class="loader-ring"></div></div>
+  <div id="toast" class="toast"></div>
+  <div class="app">
+    <aside class="sidebar glass" id="sidebar">
+      <div class="brand"><div class="logo-sm">N</div><span>Nexus HRMS</span></div>
+      <nav class="nav">
+        <a href="dashboard.html" class="nav-item">Dashboard</a>
+        <a href="attendance.html" class="nav-item active">Attendance</a>
+        <a href="analytics.html" class="nav-item">Analytics</a>
+        <a href="profile.html" class="nav-item">Profile</a>
+        <a href="settings.html" class="nav-item">Settings</a>
+      </nav>
+      <div class="sidebar-foot"><button class="btn btn-ghost ripple" id="logoutBtn">Logout</button></div>
+    </aside>
+    <div class="main">
+      <header class="topbar glass">
+        <button class="icon-btn" id="menuBtn">≡</button>
+        <h2 class="page-title">Attendance Tracker</h2>
+        <div class="top-right">
+          <button class="btn btn-ghost ripple" id="reconfigBtn">Reconfigure Month</button>
+          <div class="avatar" id="topAvatar">JD</div>
+        </div>
+      </header>
+      <section class="content">
+        <!-- Setup Modal -->
+        <div class="modal" id="setupModal">
+          <div class="modal-card glass">
+            <h2>Plan Your Month</h2>
+            <p class="muted">Set baseline numbers so we can calculate progress automatically.</p>
+            <form id="setupForm" class="setup-grid">
+              <label>Select Month
+                <input type="month" id="setMonth" required/>
+              </label>
+              <label>Total Working Days
+                <input type="number" id="setWorking" min="1" max="31" required/>
+              </label>
+              <label>Planned Office Days
+                <input type="number" id="setOffice" min="0" max="31" required/>
+              </label>
+              <label>Planned WFH Days
+                <input type="number" id="setWfh" min="0" max="31" required/>
+              </label>
+              <label>Paid Leave Days
+                <input type="number" id="setLeave" min="0" max="31" required/>
+              </label>
+              <div class="modal-actions">
+                <button type="submit" class="btn btn-primary ripple">Start Tracking</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- Stats -->
+        <div class="stat-row">
+          <div class="card glass stat"><p>Attendance</p><h2 id="kAtt">0%</h2><div class="mini-bar"><i id="mAtt"></i></div></div>
+          <div class="card glass stat"><p>Office</p><h2 id="kOff">0%</h2><div class="mini-bar"><i id="mOff" class="bar-office"></i></div></div>
+          <div class="card glass stat"><p>WFH</p><h2 id="kWfh">0%</h2><div class="mini-bar"><i id="mWfh" class="bar-wfh"></i></div></div>
+          <div class="card glass stat"><p>Leave</p><h2 id="kLeave">0</h2><span class="muted">days used</span></div>
+          <div class="card glass stat"><p>Absent</p><h2 id="kAbs">0</h2><span class="muted">days</span></div>
+          <div class="card glass stat"><p>Completed</p><h2 id="kDone">0</h2><span class="muted" id="kDoneSub">of 0 days</span></div>
+        </div>
+        <!-- Calendar -->
+        <div class="card glass cal-card">
+          <div class="cal-head">
+            <div>
+              <h3 id="calTitle">—</h3>
+              <p class="muted">Click a working day to cycle: Present → WFH → Leave → Absent</p>
+            </div>
+            <div class="legend-row">
+              <span><i class="dot d-present"></i>Present</span>
+              <span><i class="dot d-wfh"></i>WFH</span>
+              <span><i class="dot d-leave"></i>Leave</span>
+              <span><i class="dot d-absent"></i>Absent</span>
+              <span><i class="dot d-holiday"></i>Holiday</span>
+            </div>
+          </div>
+          <div class="weekdays">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+          <div class="calendar" id="calendar"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="js/attendance.js"></script>
+</body>
+</html>
