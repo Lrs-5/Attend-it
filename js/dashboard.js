@@ -16,7 +16,27 @@
     ink.style.left=(e.clientX-r.left-d/2)+"px"; ink.style.top=(e.clientY-r.top-d/2)+"px";
     b.appendChild(ink); setTimeout(()=>ink.remove(),600);
   });
-  $("#menuBtn")?.addEventListener("click", ()=> $("#sidebar").classList.toggle("open"));
+  const sidebar = $("#sidebar");
+
+$("#menuBtn")?.addEventListener("click", () => {
+    sidebar.classList.add("open");
+});
+
+$("#closeSidebar")?.addEventListener("click", () => {
+    sidebar.classList.remove("open");
+});
+
+// Close sidebar when clicking outside (mobile)
+document.addEventListener("click", (e) => {
+    if (
+        window.innerWidth <= 780 &&
+        sidebar.classList.contains("open") &&
+        !sidebar.contains(e.target) &&
+        !$("#menuBtn").contains(e.target)
+    ) {
+        sidebar.classList.remove("open");
+    }
+});
   $("#logoutBtn").addEventListener("click", ()=>{
     localStorage.removeItem("nexus.session");
     toast("Signed out","ok");
@@ -44,13 +64,23 @@
   const data = JSON.parse(localStorage.getItem("nexus.att."+key)||"null");
   const plan = JSON.parse(localStorage.getItem("nexus.plan."+key)||"null");
   $("#monthBadge").textContent = now.toLocaleDateString(undefined,{month:"long", year:"numeric"});
-  let counts = {present:0,wfh:0,leave:0,absent:0,working:0,remain:0,doneWorking:0};
+  let counts = {
+    present:0,
+    wfh:0,
+    leave:0,
+    working:0,
+    remain:0,
+    doneWorking:0
+};
   if (data){
     Object.values(data.days||{}).forEach(v=>{ if(counts[v]!==undefined) counts[v]++; });
   }
   const totalWorking = plan?.working || workingDaysInMonth(now);
   counts.working = totalWorking;
-  counts.doneWorking = counts.present + counts.wfh + counts.leave + counts.absent;
+  counts.doneWorking =
+counts.present +
+counts.wfh +
+counts.leave;
   counts.remain = Math.max(0, totalWorking - counts.doneWorking);
   const attended = counts.present + counts.wfh + counts.leave;
   const pct = totalWorking ? Math.round((attended/totalWorking)*100) : 0;
@@ -64,7 +94,6 @@
   $("#legOffice").textContent = counts.present;
   $("#legWfh").textContent = counts.wfh;
   $("#legLeave").textContent = counts.leave;
-  $("#legAbsent").textContent = counts.absent;
   $("#legRemain").textContent = counts.remain;
   // Today status
   const todayKey = dayKey(now);
@@ -76,7 +105,7 @@
   animateCounter($("#sOffice"), counts.present);
   animateCounter($("#sWfh"), counts.wfh);
   animateCounter($("#sLeave"), counts.leave);
-  animateCounter($("#sAbsent"), counts.absent);
+  
   animateCounter($("#sRemain"), counts.remain);
   // Streak (consecutive non-absent working days ending today)
   let streak = 0;
@@ -87,7 +116,7 @@
       const wd = d.getDay();
       if (wd!==0 && wd!==6){
         const v = data.days?.[k];
-        if (v && v!=="absent") streak++; else if (v==="absent") break; else if (d < new Date(data.startedAt||0)) break; else break;
+        if (v) streak++; else if (d < new Date(data.startedAt||0)) break; else break;
       }
       d.setDate(d.getDate()-1);
       if (streak>120) break;
@@ -103,7 +132,6 @@
   $("#pctOffice").textContent = setBar("#barOffice", counts.present)+"%";
   $("#pctWfh").textContent = setBar("#barWfh", counts.wfh)+"%";
   $("#pctLeave").textContent = setBar("#barLeave", counts.leave)+"%";
-  $("#pctAbsent").textContent = setBar("#barAbsent", counts.absent)+"%";
   // Timeline (build from latest entries)
   const tl = $("#timeline");
   const entries = data?.days ? Object.entries(data.days).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,6) : [];
@@ -127,7 +155,13 @@
     return n;
   }
   function capitalize(s){ return s ? s[0].toUpperCase()+s.slice(1) : ""; }
-  function color(v){ return {present:"#28d39a",wfh:"#22d3ee",leave:"#ffb84d",absent:"#ff5d7a"}[v]||"#7c5cff"; }
+function color(v){
+    return {
+        present:"#28d39a",
+        wfh:"#22d3ee",
+        leave:"#ffb84d"
+    }[v] || "#7c5cff";
+}
   function animateCounter(el, target, suffix=""){
     if (!el) return;
     const dur=800, start=performance.now();

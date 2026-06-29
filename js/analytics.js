@@ -25,7 +25,7 @@
     const k = mk(d);
     const plan = JSON.parse(localStorage.getItem("nexus.plan."+k)||"null");
     const att = JSON.parse(localStorage.getItem("nexus.att."+k)||"null");
-    const c={present:0,wfh:0,leave:0,absent:0};
+    const c={present:0,wfh:0,leave:0};
     Object.values(att?.days||{}).forEach(v=>{ if(c[v]!==undefined) c[v]++; });
     const w = plan?.working || workingDaysInMonth(d);
     const attended = c.present + c.wfh + c.leave;
@@ -34,8 +34,12 @@
   const totalOffice = months.reduce((s,m)=>s+m.counts.present,0);
   const totalWfh = months.reduce((s,m)=>s+m.counts.wfh,0);
   const totalLeave = months.reduce((s,m)=>s+m.counts.leave,0);
-  const totalAbsent = months.reduce((s,m)=>s+m.counts.absent,0);
-  const nonZero = months.filter(m=>m.counts.present+m.counts.wfh+m.counts.leave+m.counts.absent>0).length || 1;
+  const nonZero =
+months.filter(m =>
+m.counts.present+
+m.counts.wfh+
+m.counts.leave>0
+).length || 1;
   const avgOff = Math.round(totalOffice/nonZero);
   const avgWfh = Math.round(totalWfh/nonZero);
   const lastPct = months[months.length-1].pct;
@@ -45,7 +49,7 @@
   count($("#kWfh"), avgWfh);
   count($("#kLeave"), totalLeave);
   // Performance bars
-  const punct = Math.max(0, 100 - totalAbsent*5);
+  const punct = score;
   const cons = Math.round(months.reduce((s,m)=>s+m.pct,0)/months.length);
   const offPct = months.reduce((s,m)=>s+(m.working?m.counts.present/m.working*100:0),0)/months.length;
   setBar("#pbPunct","#vPunct", punct);
@@ -60,7 +64,6 @@
     {label:"Office", value:totalOffice, color:C1},
     {label:"WFH",    value:totalWfh,    color:C2},
     {label:"Leave",  value:totalLeave,  color:C4},
-    {label:"Absent", value:totalAbsent, color:C5},
   ]));
   fitCanvas("chartTrend", (ctx,w,h)=> drawLine(ctx,w,h, months.map(m=>m.pct), months.map(m=>m.label)));
   fitCanvas("chartLeave", (ctx,w,h)=> drawStacked(ctx,w,h, months));
@@ -190,7 +193,12 @@
   function drawStacked(ctx,w,h,months){
     const padL=30, padB=28, padT=16, padR=12;
     const cw = w-padL-padR, ch = h-padT-padB;
-    const max = Math.max(...months.map(m=>m.counts.present+m.counts.wfh+m.counts.leave+m.counts.absent),5);
+    const max = Math.max(
+...months.map(m =>
+m.counts.present+
+m.counts.wfh+
+m.counts.leave
+),5);
     const gap = cw/months.length; const bw = gap*0.55;
     ctx.strokeStyle = stroke; ctx.lineWidth=1; ctx.fillStyle = ink2; ctx.font="11px Inter,sans-serif";
     for (let i=0;i<=4;i++){ const y=padT+ch*(i/4); ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(w-padR,y); ctx.stroke(); }
@@ -200,7 +208,6 @@
         {v:m.counts.present, c:C1},
         {v:m.counts.wfh,     c:C2},
         {v:m.counts.leave,   c:C4},
-        {v:m.counts.absent,  c:C5},
       ];
       let yCursor = padT+ch;
       parts.forEach(p=>{
