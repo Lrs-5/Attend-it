@@ -136,7 +136,7 @@ $("#reconfigBtn").addEventListener("click", ()=>openSetup(true));
       if (!isHoliday){
         cell.addEventListener("click", ()=>{
           const cur = att.days[k];
-          const next = cur ? CYCLE[(CYCLE.indexOf(cur)+1)%CYCLE.length] : "present";
+          const next = cur ? CYCLE[(CYCLE.indexOf(cur)+1)%CYCLE.length] : "wfh";
           att.days[k] = next;
           localStorage.setItem(attKey(), JSON.stringify(att));
           cell.classList.remove("present","wfh","leave");
@@ -204,7 +204,12 @@ function getWorkingDays(year, month){
 function workingDaysInMonth(d){
     return getWorkingDays(d.getFullYear(), d.getMonth());
 }
-  function capitalize(s){ return s ? s[0].toUpperCase()+s.slice(1) : ""; }
+  function capitalize(s){
+    if(s === "present") return "WFO";
+    if(s === "wfh") return "WFH";
+    if(s === "leave") return "Leave";
+    return "";
+}
   function formatShort(d){ return d.toLocaleDateString(undefined,{day:"numeric",month:"short"}); }
   if (plan) render();
 })();
