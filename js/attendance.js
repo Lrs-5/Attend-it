@@ -30,6 +30,20 @@
   const attKey = ()=> "nexus.att."+currentKey;
   let plan = JSON.parse(localStorage.getItem(planKey())||"null");
   let att = JSON.parse(localStorage.getItem(attKey())||"null");
+  function loadMonth(){
+
+    plan = JSON.parse(localStorage.getItem(planKey()) || "null");
+
+    att = JSON.parse(localStorage.getItem(attKey()) || '{"days":{}}');
+
+   if(!plan){
+    updateMonthDefaults();
+    render();
+}else{
+    render();
+}
+
+}
   // Setup modal
   // ===== Setup Modal =====
 const setupModal = $("#setupModal");
@@ -210,6 +224,36 @@ function workingDaysInMonth(d){
     if(s === "leave") return "Leave";
     return "";
 }
-  function formatShort(d){ return d.toLocaleDateString(undefined,{day:"numeric",month:"short"}); }
-  if (plan) render();
+function formatShort(d){
+    return d.toLocaleDateString(undefined,{day:"numeric",month:"short"});
+}
+
+
+// Previous Month
+$("#prevMonth").addEventListener("click", ()=>{
+
+    const [y,m] = currentKey.split("-").map(Number);
+
+    currentKey = monthKey(new Date(y, m-2, 1));
+
+    loadMonth();
+
+});
+
+
+// Next Month
+$("#nextMonth").addEventListener("click", ()=>{
+
+    const [y,m] = currentKey.split("-").map(Number);
+
+    currentKey = monthKey(new Date(y, m, 1));
+
+    loadMonth();
+
+});
+
+
+// Initial Load
+loadMonth();
+
 })();
