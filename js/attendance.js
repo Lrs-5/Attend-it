@@ -31,25 +31,67 @@
   let plan = JSON.parse(localStorage.getItem(planKey())||"null");
   let att = JSON.parse(localStorage.getItem(attKey())||"null");
   // Setup modal
-  const setupModal = $("#setupModal");
-  function openSetup(prefill=true){
-    $("#setMonth").value = currentKey;
-    if (prefill && plan){
-      $("#setWorking").value = plan.working;
-      $("#setOffice").value = plan.office;
-      $("#setWfh").value = plan.wfh;
-      $("#setLeave").value = plan.leave;
-    } else {
-      $("#setWorking").value = workingDaysInMonth(now);
-      $("#setOffice").value = Math.max(0, workingDaysInMonth(now)-4);
-      $("#setWfh").value = 4;
-      $("#setLeave").value = 0;
+  // ===== Setup Modal =====
+const setupModal = $("#setupModal");
+const setMonth = $("#setMonth");
+const setWorking = $("#setWorking");
+const setOffice = $("#setOffice");
+const setWfh = $("#setWfh");
+const setLeave = $("#setLeave");
+
+// Auto-calculate working days and split Office/WFH
+function updateMonthDefaults(){
+
+    if(!setMonth.value) return;
+
+    const [year, month] = setMonth.value.split("-").map(Number);
+
+    const working = getWorkingDays(year, month - 1);
+
+    setWorking.value = working;
+
+    setOffice.value = Math.ceil(working / 2);
+
+    setWfh.value = Math.floor(working / 2);
+}
+
+// Open modal
+function openSetup(prefill = true){
+
+    setMonth.value = currentKey;
+
+    if(prefill && plan){
+
+        setWorking.value = plan.working;
+        setOffice.value = plan.office;
+        setWfh.value = plan.wfh;
+        setLeave.value = plan.leave;
+
+    }else{
+
+        updateMonthDefaults();
+        setLeave.value = 0;
+
     }
+
     setupModal.classList.add("show");
-  }
-  function closeSetup(){ setupModal.classList.remove("show"); }
-  if (!plan) openSetup(false);
-  $("#reconfigBtn").addEventListener("click", ()=> openSetup(true));
+}
+
+// Close modal
+function closeSetup(){
+    setupModal.classList.remove("show");
+}
+
+// Close button (✕)
+$("#closeSetup").addEventListener("click", closeSetup);
+
+// Update values whenever month changes
+setMonth.addEventListener("change", updateMonthDefaults);
+
+// First time
+if(!plan) openSetup(false);
+
+$("#reconfigBtn").addEventListener("click", ()=>openSetup(true));
   $("#setupForm").addEventListener("submit", e=>{
     e.preventDefault();
     const month = $("#setMonth").value;
@@ -140,10 +182,28 @@ $("#kDoneSub").textContent = `of ${w} days`;
   }
   function monthKey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); }
   function dayKey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
-  function workingDaysInMonth(d){
-    const y=d.getFullYear(), m=d.getMonth(); const last=new Date(y,m+1,0).getDate(); let n=0;
-    for (let i=1;i<=last;i++){ const wd=new Date(y,m,i).getDay(); if (wd!==0 && wd!==6) n++; } return n;
-  }
+function getWorkingDays(year, month){
+
+    let total = 0;
+
+    const lastDay = new Date(year, month + 1, 0).getDate();
+
+    for(let day = 1; day <= lastDay; day++){
+
+        const weekDay = new Date(year, month, day).getDay();
+
+        if(weekDay !== 0 && weekDay !== 6){
+            total++;
+        }
+
+    }
+
+    return total;
+}
+
+function workingDaysInMonth(d){
+    return getWorkingDays(d.getFullYear(), d.getMonth());
+}
   function capitalize(s){ return s ? s[0].toUpperCase()+s.slice(1) : ""; }
   function formatShort(d){ return d.toLocaleDateString(undefined,{day:"numeric",month:"short"}); }
   if (plan) render();
