@@ -36,17 +36,33 @@
     </aside>
     <!-- Main -->
     <div class="main">
-      <header class="topbar glass">
-        <button class="icon-btn" id="menuBtn" aria-label="Toggle menu">
-          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
-        </button>
-       
-        <div class="top-right">
-            <span class="dot"></span>
-          </button>
-          <div class="avatar" id="topAvatar">JD</div>
-        </div>
-      </header>
+  <header class="topbar glass">
+  <button class="icon-btn" id="menuBtn" aria-label="Toggle menu">
+    <svg viewBox="0 0 24 24" width="22" height="22">
+      <path fill="currentColor" d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/>
+    </svg>
+  </button>
+
+  <h2 class="page-title">Dashboard</h2>
+
+  <div class="top-right">
+
+      <button class="btn ripple" id="exportExcel">
+          ⬇ Export Report
+      </button>
+
+      <span class="dot"></span>
+
+      <div class="avatar" id="topAvatar">JD</div>
+
+  </div>
+</header>
+
+
+
+
+
+      
       <section class="content">
         <div class="hero">
           <div>
@@ -137,6 +153,7 @@
       </section>
     </div>
   </div>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>

@@ -33,40 +33,48 @@
       <section class="content">
         <div class="kpis">
           <div class="card glass kpi"><p>Attendance Score</p><h2 data-counter id="kScore">0</h2><span class="muted">/ 100</span></div>
-          <div class="card glass kpi"><p>Avg Office</p><h2 data-counter id="kOff">0</h2><span class="muted">days / mo</span></div>
+          <div class="card glass kpi"><p>Avg WFO</p><h2 data-counter id="kOff">0</h2><span class="muted">days / mo</span></div>
           <div class="card glass kpi"><p>Avg WFH</p><h2 data-counter id="kWfh">0</h2><span class="muted">days / mo</span></div>
-          <div class="card glass kpi"><p>Leaves Used</p><h2 data-counter id="kLeave">0</h2><span class="muted">total</span></div>
+          <div class="card glass kpi"><p>Leaves </p><h2 data-counter id="kLeave">0</h2><span class="muted">total</span></div>
         </div>
         <div class="grid">
-          <div class="card glass span-2">
+          <div class="card glass span-3">
             <div class="card-head"><h3>Monthly Attendance</h3><span class="muted">last 6 months</span></div>
             <canvas id="chartMonthly" height="240"></canvas>
           </div>
           <div class="card glass">
             <div class="card-head"><h3>Office vs WFH</h3></div>
-            <canvas id="chartDonut" height="240"></canvas>
-          </div>
-          <div class="card glass">
-            <div class="card-head"><h3>Attendance Trend</h3></div>
-            <canvas id="chartTrend" height="240"></canvas>
-          </div>
-          <div class="card glass span-2">
-            <div class="card-head"><h3>Leave Statistics</h3></div>
-            <canvas id="chartLeave" height="240"></canvas>
-          </div>
-          <div class="card glass span-3">
-            <div class="card-head"><h3>Performance Bars</h3></div>
-            <div class="bars">
-              <div class="bar-row"><span>Punctuality</span><div class="bar"><i id="pbPunct"></i></div><b id="vPunct">0%</b></div>
-              <div class="bar-row"><span>Consistency</span><div class="bar"><i id="pbCons"></i></div><b id="vCons">0%</b></div>
-              <div class="bar-row"><span>Office Presence</span><div class="bar"><i id="pbOff"></i></div><b id="vOff">0%</b></div>
-              <div class="bar-row"><span>Overall Score</span><div class="bar"><i id="pbScore"></i></div><b id="vScore">0%</b></div>
-            </div>
-          </div>
-          <div class="card glass span-3">
-            <div class="card-head"><h3>Insights</h3></div>
-            <ul class="insights" id="insights"></ul>
-          </div>
+            <canvas id="chartDonut" height="320"></canvas>
+          </div>  
+            <div class="card glass">
+    <div class="card-head">
+        <h3>Monthly Summary</h3>
+    </div>
+
+    <div class="summary">
+
+        <div>
+            <span>Working Days</span>
+            <b id="sumWorking">0</b>
+        </div>
+
+        <div>
+            <span>WFO</span>
+            <b id="sumOffice">0</b>
+        </div>
+
+        <div>
+            <span>WFH</span>
+            <b id="sumWFH">0</b>
+        </div>
+
+        <div>
+            <span>Leaves</span>
+            <b id="sumLeave">0</b>
+        </div>
+
+    </div>
+</div>
         </div>
       </section>
     </div>

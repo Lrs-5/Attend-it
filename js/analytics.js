@@ -42,20 +42,22 @@ m.counts.leave>0
 ).length || 1;
   const avgOff = Math.round(totalOffice/nonZero);
   const avgWfh = Math.round(totalWfh/nonZero);
-  const lastPct = months[months.length-1].pct;
-  const score = lastPct;
-  count($("#kScore"), score);
-  count($("#kOff"), avgOff);
-  count($("#kWfh"), avgWfh);
-  count($("#kLeave"), totalLeave);
-  // Performance bars
-  const punct = score;
-  const cons = Math.round(months.reduce((s,m)=>s+m.pct,0)/months.length);
-  const offPct = months.reduce((s,m)=>s+(m.working?m.counts.present/m.working*100:0),0)/months.length;
-  setBar("#pbPunct","#vPunct", punct);
-  setBar("#pbCons","#vCons", cons);
-  setBar("#pbOff","#vOff", Math.round(offPct));
-  setBar("#pbScore","#vScore", score);
+const lastPct = months[months.length-1].pct;
+const score = lastPct;
+
+// Quick Summary values
+const latest = months[months.length-1];
+
+$("#sumWorking").textContent = latest.working;
+$("#sumOffice").textContent = latest.counts.present;
+$("#sumWFH").textContent = latest.counts.wfh;
+$("#sumLeave").textContent = latest.counts.leave;
+
+// KPI counters
+count($("#kScore"), score);
+count($("#kOff"), avgOff);
+count($("#kWfh"), avgWfh);
+count($("#kLeave"), totalLeave);
   // ---------- Canvas charts (no libraries) ----------
   const ink = getCSS("--ink"), ink2 = getCSS("--ink-2"), stroke = "rgba(255,255,255,0.12)";
   const C1 = "#7c5cff", C2 = "#22d3ee", C3 = "#28d39a", C4 = "#ffb84d", C5 = "#ff5d7a";
@@ -65,21 +67,6 @@ m.counts.leave>0
     {label:"WFH",    value:totalWfh,    color:C2},
     {label:"Leave",  value:totalLeave,  color:C4},
   ]));
-  fitCanvas("chartTrend", (ctx,w,h)=> drawLine(ctx,w,h, months.map(m=>m.pct), months.map(m=>m.label)));
-  fitCanvas("chartLeave", (ctx,w,h)=> drawStacked(ctx,w,h, months));
-  // Insights
-  const ins = $("#insights");
-  const bestMonth = [...months].sort((a,b)=>b.pct-a.pct)[0];
-  const worstMonth = [...months].sort((a,b)=>a.pct-b.pct)[0];
-  const tipPct = score>=90 ? "Outstanding consistency" : score>=75 ? "Solid attendance" : score>=50 ? "Room for improvement" : "Needs attention";
-  ins.innerHTML = `
-    <li><b>${score}%</b>Current month attendance — ${tipPct}.</li>
-    <li><b>${bestMonth?.label||"—"}</b>Best month at ${bestMonth?.pct||0}%.</li>
-    <li><b>${worstMonth?.label||"—"}</b>Lowest at ${worstMonth?.pct||0}%.</li>
-    <li><b>${totalOffice}</b>Days in office across last 6 months.</li>
-    <li><b>${totalWfh}</b>Days working from home.</li>
-    <li><b>${totalLeave}</b>Paid leaves used.</li>
-  `;
   // ---------- helpers ----------
   function mk(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); }
   function workingDaysInMonth(d){
@@ -95,7 +82,6 @@ m.counts.leave>0
       if (p<1) requestAnimationFrame(tick);
     })(performance.now());
   }
-  function setBar(bar,val,v){ $(bar).style.width = v+"%"; $(val).textContent = v+"%"; }
   function fitCanvas(id, draw){
     const c = document.getElementById(id); if (!c) return;
     const resize = ()=>{

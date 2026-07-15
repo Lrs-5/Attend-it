@@ -173,10 +173,19 @@ Object.values(att?.days||{}).forEach(v=>{
 
 const w = plan?.working || 0;
 
-const attended = c.present + c.wfh + c.leave;
-const pct = w ? Math.round(attended/w*100) : 0;
-const offPct = w ? Math.round(c.present/w*100) : 0;
-const wfhPct = w ? Math.round(c.wfh/w*100) : 0;
+const effectiveDays = Math.max(0, w - c.leave); // Exclude leave days
+const attended = c.present + c.wfh;
+
+const pct = effectiveDays
+  ? Math.round((attended / effectiveDays) * 100)
+  : 0;
+const offPct = effectiveDays
+  ? Math.round((c.present / effectiveDays) * 100)
+  : 0;
+
+const wfhPct = effectiveDays
+  ? Math.round((c.wfh / effectiveDays) * 100)
+  : 0;
 
 const done = attended;
 

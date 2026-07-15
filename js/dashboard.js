@@ -1,4 +1,7 @@
 // ===== Nexus HRMS · Dashboard =====
+
+
+
 (function(){
   const $ = s => document.querySelector(s);
   const session = JSON.parse(localStorage.getItem("nexus.session")||"null");
@@ -175,3 +178,135 @@ function color(v){
   }
   function easeOut(t){ return 1-Math.pow(1-t,3); }
 })();
+
+
+
+
+// ================= EXPORT ATTENDANCE REPORT =================
+
+document.getElementById("exportExcel").addEventListener("click", exportAttendance);
+
+function exportAttendance(){
+
+    const rows = [];
+
+    let totalWorking = 0;
+    let totalOffice = 0;
+    let totalWFH = 0;
+    let totalLeave = 0;
+
+    const now = new Date();
+
+    // Last 6 months
+    for(let i=5;i>=0;i--){
+
+        const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+
+        const key =
+            d.getFullYear() +
+            "-" +
+            String(d.getMonth()+1).padStart(2,"0");
+
+        const plan =
+            JSON.parse(localStorage.getItem("nexus.plan."+key) || "null");
+
+        const att =
+            JSON.parse(localStorage.getItem("nexus.att."+key) || '{"days":{}}');
+
+        const counts = {
+            present:0,
+            wfh:0,
+            leave:0
+        };
+
+        Object.values(att.days || {}).forEach(status=>{
+
+            if(status==="present") counts.present++;
+
+            if(status==="wfh") counts.wfh++;
+
+            if(status==="leave") counts.leave++;
+
+        });
+
+        const working = plan ? plan.working : 0;
+
+        const attended =
+            counts.present +
+            counts.wfh +
+            counts.leave;
+
+        const percent =
+            working
+            ? Math.round(attended/working*100)
+            : 0;
+
+        rows.push({
+
+            Month:d.toLocaleString("default",{month:"long"}),
+
+            "Working Days":working,
+
+            WFO:counts.present,
+
+            WFH:counts.wfh,
+
+            Leave:counts.leave,
+
+            "Attendance %":percent+"%"
+
+        });
+
+        totalWorking += working;
+        totalOffice += counts.present;
+        totalWFH += counts.wfh;
+        totalLeave += counts.leave;
+    }
+
+    const overall =
+        totalWorking
+        ? Math.round(
+            ((totalOffice+totalWFH+totalLeave)/totalWorking)*100
+        )
+        : 0;
+
+    rows.push({});
+
+    rows.push({
+
+        Month:"TOTAL",
+
+        "Working Days":totalWorking,
+
+        WFO:totalOffice,
+
+        WFH:totalWFH,
+
+        Leave:totalLeave,
+
+        "Attendance %":overall+"%"
+
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "Attendance Summary"
+    );
+
+    const today = new Date();
+
+    const fileName =
+        "Attendance_Report_" +
+        today.getFullYear() +
+        "_" +
+        String(today.getMonth()+1).padStart(2,"0") +
+        ".xlsx";
+
+    XLSX.writeFile(workbook,fileName);
+
+}

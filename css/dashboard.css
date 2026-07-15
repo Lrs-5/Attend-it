@@ -193,3 +193,9 @@ font-size:20px;
 background:rgba(255,255,255,.08);
 color:white;
 }
+
+
+#exportExcel{
+    margin-right:15px;
+    white-space:nowrap;
+}

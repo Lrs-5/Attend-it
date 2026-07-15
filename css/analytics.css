@@ -1,8 +1,17 @@
 @import url("dashboard.css");
 .page-title{margin:0;font-size:18px;flex:1}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpis{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:22px;
+margin-bottom:24px;
+}
 .kpi{display:flex;flex-direction:column;gap:4px}
-.kpi h2{margin:0;font-size:30px}
+.kpi h2{
+font-size:42px;
+font-weight:700;
+margin-top:8px;
+}
 canvas{width:100%;display:block}
 .insights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .insights li{padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--stroke);font-size:13px;color:var(--ink-2)}
@@ -10,3 +19,29 @@ canvas{width:100%;display:block}
 #pbPunct,#pbCons,#pbOff,#pbScore{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand-2));border-radius:999px;transition:width 1.2s ease}
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}.insights{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:600px){.kpis{grid-template-columns:1fr}.insights{grid-template-columns:1fr}}
+
+.summary{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
+margin-top:20px;
+}
+
+.summary div{
+padding:18px;
+border-radius:16px;
+background:rgba(255,255,255,.05);
+text-align:center;
+}
+
+.summary span{
+display:block;
+color:var(--ink-2);
+font-size:13px;
+margin-bottom:8px;
+}
+
+.summary b{
+font-size:26px;
+color:var(--ink);
+}
