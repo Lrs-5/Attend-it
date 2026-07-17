@@ -50,8 +50,8 @@
             </div>
           </div>
         </div>
-        <form id="profileForm" class="grid">
-          <div class="card glass span-2">
+        <form id="profileForm" class="profile-grid">
+          <div class="card glass profile-card">
             <h3>Personal Information</h3>
             <div class="form-grid">
               <label>Full Name<input id="fName"/></label>
@@ -62,7 +62,7 @@
               <label>Location<input id="fLocation"/></label>
             </div>
           </div>
-          <div class="card glass span-2">
+          <div class="card glass profile-card">
             <h3>Employment</h3>
             <div class="form-grid">
               <label>Department<input id="fDept"/></label>
@@ -73,10 +73,19 @@
               <label>Emergency Contact<input id="fEmergency"/></label>
             </div>
           </div>
-          <div class="card glass span-2 actions-row">
-            <button type="button" class="btn btn-ghost ripple" id="cancelBtn">Cancel</button>
-            <button type="submit" class="btn btn-primary ripple" id="saveBtn">Save Changes</button>
-          </div>
+          <div class="profile-actions">
+    <button type="button"
+            class="btn btn-ghost ripple"
+            id="cancelBtn">
+        Cancel
+    </button>
+
+    <button type="submit"
+            class="btn btn-primary ripple"
+            id="saveBtn">
+        Save Changes
+    </button>
+</div>
         </form>
       </section>
     </div>
