@@ -115,25 +115,31 @@
         <!-- Calendar -->
         <div class="card glass cal-card">
           <div class="cal-head">
-            <div>
-              <div class="month-nav">
+  <div>
+    <div class="month-nav">
 
-    <button id="prevMonth" class="month-btn">&#10094;</button>
+      <button id="prevMonth" class="month-btn">&#10094;</button>
 
-    <h3 id="calTitle"></h3>
+      <h3 id="calTitle"></h3>
 
-    <button id="nextMonth" class="month-btn">&#10095;</button>
+      <button id="nextMonth" class="month-btn">&#10095;</button>
 
+    </div>
+  </div>
+
+  <div class="legend-container">
+    <div class="legend-row">
+      <span><i class="dot d-present"></i>WFO</span>
+      <span><i class="dot d-wfh"></i>WFH</span>
+      <span><i class="dot d-leave"></i>Leave</span>
+      <span><i class="dot d-holiday"></i>Holiday</span>
+    </div>
+
+    <p class="muted cycle-info">
+      *Click a working day to cycle: WFO → WFH → Leave
+    </p>
+  </div>
 </div>
-              <p class="muted">Click a working day to cycle: WFO → WFH → Leave</p>
-            </div>
-            <div class="legend-row">
-              <span><i class="dot d-present"></i>WFO</span>
-              <span><i class="dot d-wfh"></i>WFH</span>
-              <span><i class="dot d-leave"></i>Leave</span>
-              <span><i class="dot d-holiday"></i>Holiday</span>
-            </div>
-          </div>
           <div class="weekdays">
             <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
           </div>
