@@ -20,8 +20,30 @@
 .legend-row .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
 .d-present{background:var(--present)}.d-wfh{background:var(--wfh)}.d-leave{background:var(--leave)}.d-absent{background:var(--absent)}.d-holiday{background:#5a6585}
 .weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:8px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.16em;text-align:center}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
-.day{aspect-ratio:1/1;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--stroke);display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:8px 10px;cursor:pointer;transition:.2s;position:relative;color:var(--ink);font-size:13px}
+.calendar{
+display:grid;
+grid-template-columns:repeat(7,minmax(0,1fr));
+gap:8px;
+width:100%;
+}
+.day{
+aspect-ratio:1/1;
+border-radius:12px;
+background:rgba(255,255,255,.04);
+border:1px solid var(--stroke);
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+justify-content:space-between;
+padding:8px;
+cursor:pointer;
+transition:.2s;
+position:relative;
+color:var(--ink);
+font-size:13px;
+min-width:0;
+overflow:hidden;
+}
 .day:hover{transform:translateY(-2px);background:rgba(255,255,255,.08)}
 .day .n{font-weight:700}
 .day .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-2)}
@@ -44,7 +66,49 @@
 .setup-grid input:focus{border-color:rgba(124,92,255,.7);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
 .modal-actions{grid-column:1/-1;display:flex;justify-content:flex-end;gap:10px;margin-top:6px}
 @media (max-width:1100px){.stat-row{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:600px){.stat-row{grid-template-columns:repeat(2,1fr)}.setup-grid{grid-template-columns:1fr}.day{font-size:12px;padding:6px}}
+@media (max-width:600px){
+
+.stat-row{
+    grid-template-columns:1fr;
+}
+
+.setup-grid{
+    grid-template-columns:1fr;
+}
+
+.cal-head{
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.legend-row{
+    gap:8px;
+}
+
+.weekdays{
+    gap:4px;
+    font-size:10px;
+}
+
+.calendar{
+    gap:4px;
+}
+
+.day{
+    padding:5px;
+    font-size:11px;
+}
+
+.day .lbl{
+    font-size:9px;
+}
+
+.month-nav{
+    width:100%;
+    justify-content:space-between;
+}
+
+}
 .modal-card{
     position:relative;
 }
@@ -138,4 +202,25 @@
         flex-wrap:wrap;
     }
 
+}
+
+
+
+
+/* Attendance page only */
+
+.cal-card{
+    width:100%;
+    overflow:hidden;
+}
+
+.calendar,
+.weekdays{
+    width:100%;
+}
+
+.day .n,
+.day .lbl{
+    overflow:hidden;
+    text-overflow:ellipsis;
 }

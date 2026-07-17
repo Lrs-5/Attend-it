@@ -4,6 +4,7 @@
     margin:0;
     font-size:18px;
     flex:1;
+    min-width:0;
 }
 
 /* ==========================
@@ -15,6 +16,7 @@
     align-items:center;
     gap:24px;
     padding:24px;
+    flex-wrap:wrap;
 }
 
 .ph-photo{
@@ -22,11 +24,18 @@
     flex-direction:column;
     align-items:center;
     gap:12px;
+    flex-shrink:0;
+}
+
+.ph-meta{
+    flex:1;
+    min-width:260px;
 }
 
 .ph-meta h1{
     margin:0 0 6px;
     font-size:30px;
+    word-break:break-word;
 }
 
 .chips{
@@ -51,13 +60,15 @@
 
 .profile-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:22px;
     margin-top:22px;
 }
 
 .profile-card{
     padding:22px;
+    width:100%;
+    overflow:hidden;
 }
 
 .profile-card h3{
@@ -85,6 +96,7 @@
 }
 
 .form-grid input{
+    width:100%;
     background:rgba(255,255,255,.05);
     border:1px solid var(--stroke);
     border-radius:12px;
@@ -115,6 +127,7 @@
     justify-content:flex-end;
     gap:14px;
     margin-top:12px;
+    flex-wrap:wrap;
 }
 
 #cancelBtn,
@@ -123,39 +136,94 @@
 }
 
 /* ==========================
-   Responsive
+   Tablet
 ========================== */
 
-@media(max-width:950px){
+@media (max-width:950px){
 
     .profile-grid{
         grid-template-columns:1fr;
     }
 
-   .profile-actions{
-    grid-column:auto;
-}
+    .profile-actions{
+        grid-column:auto;
+    }
 
 }
 
-@media(max-width:700px){
+/* ==========================
+   Mobile
+========================== */
+
+@media (max-width:700px){
 
     .profile-hero{
         flex-direction:column;
+        align-items:center;
         text-align:center;
+        padding:20px;
+    }
+
+    .ph-meta{
+        min-width:100%;
+    }
+
+    .ph-meta h1{
+        font-size:26px;
     }
 
     .chips{
         justify-content:center;
     }
 
+    .profile-card{
+        padding:18px;
+    }
+
     .profile-actions{
-    flex-direction:column-reverse;
-}
+        flex-direction:column-reverse;
+        align-items:stretch;
+    }
 
     #cancelBtn,
     #saveBtn{
         width:100%;
+        min-width:0;
+    }
+
+}
+
+/* ==========================
+   Small Phones
+========================== */
+
+@media (max-width:480px){
+
+    .profile-hero{
+        gap:18px;
+        padding:16px;
+    }
+
+    .profile-card{
+        padding:16px;
+    }
+
+    .ph-meta h1{
+        font-size:22px;
+    }
+
+    .chip{
+        width:100%;
+        text-align:center;
+    }
+
+    .form-grid{
+        gap:14px;
+    }
+
+    .form-grid input{
+        font-size:14px;
+        padding:11px 12px;
     }
 
 }
