@@ -268,3 +268,10 @@ color:white;
     white-space:nowrap;
     margin:0;
 }
+
+.avatar-link{
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  align-items:center;
+}
