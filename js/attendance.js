@@ -101,7 +101,43 @@ $("#closeSetup").addEventListener("click", closeSetup);
 
 // Update values whenever month changes
 setMonth.addEventListener("change", updateMonthDefaults);
+setOffice.addEventListener("input", () => {
 
+    const total = (+setWorking.value || 0) - (+setLeave.value || 0);
+
+    let office = +setOffice.value || 0;
+
+    office = Math.max(0, Math.min(office, total));
+
+    setOffice.value = office;
+    setWfh.value = total - office;
+
+});
+setLeave.addEventListener("input", () => {
+
+    const total = (+setWorking.value || 0) - (+setLeave.value || 0);
+
+    let office = +setOffice.value || 0;
+
+    office = Math.min(office, total);
+
+    setOffice.value = office;
+    setWfh.value = total - office;
+
+});
+
+setWfh.addEventListener("input", () => {
+
+    const total = (+setWorking.value || 0) - (+setLeave.value || 0);
+
+    let wfh = +setWfh.value || 0;
+
+    wfh = Math.max(0, Math.min(wfh, total));
+
+    setWfh.value = wfh;
+    setOffice.value = total - wfh;
+
+});
 // First time
 if(!plan) openSetup(false);
 
@@ -124,7 +160,7 @@ $("#reconfigBtn").addEventListener("click", ()=>openSetup(true));
     render();
   });
   // Render calendar + stats
-  const CYCLE = ["present","wfh","leave"];
+ 
   function render(){
     const [y,m] = currentKey.split("-").map(Number);
     const first = new Date(y, m-1, 1);
@@ -148,17 +184,37 @@ $("#reconfigBtn").addEventListener("click", ()=>openSetup(true));
       if (v) cell.classList.add(v);
       cell.innerHTML = `<span class="n">${day}</span><span class="lbl">${isHoliday?"Holiday":(v?capitalize(v):"")}</span>`;
       if (!isHoliday){
-        cell.addEventListener("click", ()=>{
-          const cur = att.days[k];
-          const next = cur ? CYCLE[(CYCLE.indexOf(cur)+1)%CYCLE.length] : "wfh";
-          att.days[k] = next;
-          localStorage.setItem(attKey(), JSON.stringify(att));
-          cell.classList.remove("present","wfh","leave");
-          cell.classList.add(next);
-          cell.querySelector(".lbl").textContent = capitalize(next);
-          updateStats();
-          toast(`${formatShort(date)} → ${capitalize(next)}`,"ok");
-        });
+        cell.addEventListener("click", () => {
+
+    const cur = att.days[k];
+
+    if (!cur) {
+        att.days[k] = "wfh";
+    } else if (cur === "wfh") {
+        att.days[k] = "present";
+    } else if (cur === "present") {
+        att.days[k] = "leave";
+    } else if (cur === "leave") {
+        delete att.days[k];
+    }
+
+    cell.classList.remove("present", "wfh", "leave");
+
+    const value = att.days[k];
+
+    if (value) {
+        cell.classList.add(value);
+        cell.querySelector(".lbl").textContent = capitalize(value);
+        toast(`${formatShort(date)} → ${capitalize(value)}`, "ok");
+    } else {
+        cell.querySelector(".lbl").textContent = "";
+        toast(`${formatShort(date)} → Cleared`, "ok");
+    }
+
+    localStorage.setItem(attKey(), JSON.stringify(att));
+    updateStats();
+
+});
       }
       cal.appendChild(cell);
     }
@@ -188,6 +244,8 @@ const wfhPct = effectiveDays
   : 0;
 
 const done = attended;
+const officeLeft = Math.max(0, (plan?.office || 0) - c.present);
+const wfhLeft = Math.max(0, (plan?.wfh || 0) - c.wfh);
 
 $("#kAtt").textContent = pct+"%";
 $("#mAtt").style.width = pct+"%";
@@ -202,6 +260,9 @@ $("#kLeave").textContent = c.leave;
 
 $("#kDone").textContent = done;
 $("#kDoneSub").textContent = `of ${w} days`;
+$("#kRemain").textContent = `${officeLeft} WFO`;
+$("#kRemainSub").textContent = `${wfhLeft} WFH left`;
+
   }
   function monthKey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); }
   function dayKey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }

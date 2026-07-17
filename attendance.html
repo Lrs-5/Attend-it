@@ -45,7 +45,7 @@
                 <input type="month" id="setMonth" required/>
               </label>
               <label>Total Working Days
-                <input type="number" id="setWorking" min="1" max="31" required/>
+                <input type="number" id="setWorking" readonly/>
               </label>
               <label>Planned Office Days
                 <input type="number" id="setOffice" min="0" max="31" required/>
@@ -64,12 +64,43 @@
         </div>
         <!-- Stats -->
         <div class="stat-row">
-          <div class="card glass stat"><p>Attendance</p><h2 id="kAtt">0%</h2><div class="mini-bar"><i id="mAtt"></i></div></div>
-          <div class="card glass stat"><p>Office</p><h2 id="kOff">0%</h2><div class="mini-bar"><i id="mOff" class="bar-office"></i></div></div>
-          <div class="card glass stat"><p>WFH</p><h2 id="kWfh">0%</h2><div class="mini-bar"><i id="mWfh" class="bar-wfh"></i></div></div>
-          <div class="card glass stat"><p>Leave</p><h2 id="kLeave">0</h2><span class="muted">days used</span></div>
-          <div class="card glass stat"><p>Completed</p><h2 id="kDone">0</h2><span class="muted" id="kDoneSub">of 0 days</span></div>
-        </div>
+  <div class="card glass stat">
+    <p>Attendance</p>
+    <h2 id="kAtt">0%</h2>
+    <div class="mini-bar"><i id="mAtt"></i></div>
+  </div>
+
+  <div class="card glass stat">
+    <p>Office</p>
+    <h2 id="kOff">0%</h2>
+    <div class="mini-bar"><i id="mOff" class="bar-office"></i></div>
+  </div>
+
+  <div class="card glass stat">
+    <p>WFH</p>
+    <h2 id="kWfh">0%</h2>
+    <div class="mini-bar"><i id="mWfh" class="bar-wfh"></i></div>
+  </div>
+
+  <div class="card glass stat">
+    <p>Leave</p>
+    <h2 id="kLeave">0</h2>
+    <span class="muted">days used</span>
+  </div>
+
+  <div class="card glass stat">
+    <p>Completed</p>
+    <h2 id="kDone">0</h2>
+    <span class="muted" id="kDoneSub">of 0 days</span>
+  </div>
+
+  <!-- NEW CARD -->
+  <div class="card glass stat">
+    <p>Remaining</p>
+    <h2 id="kRemain">0 WFO</h2>
+    <span class="muted" id="kRemainSub">0 WFH left</span>
+  </div>
+</div>
         <!-- Calendar -->
         <div class="card glass cal-card">
           <div class="cal-head">
