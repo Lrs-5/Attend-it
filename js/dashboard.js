@@ -103,6 +103,7 @@ counts.leave;
   const todayVal = data?.days?.[todayKey];
   const isWeekend = [0,6].includes(now.getDay());
   $("#todayStatus").textContent = isWeekend ? "Holiday" :
+    todayVal === "present" ? "WFO" :
     todayVal ? capitalize(todayVal) : "Not marked";
   // Stat cards
   animateCounter($("#sOffice"), counts.present);
@@ -144,7 +145,7 @@ counts.leave;
     tl.innerHTML = entries.map(([d,v])=>{
       const dt = new Date(d);
       return `<li><div class="tdot" style="background:${color(v)}"></div>
-      <div class="ttext"><p>Marked <b>${capitalize(v)}</b></p>
+      <div class="ttext"><p>Marked <b>${v==="present" ? "WFO" : capitalize(v)}</b></p>
       <small>${dt.toLocaleDateString(undefined,{weekday:"short", day:"numeric", month:"short"})}</small></div></li>`;
     }).join("");
   }
