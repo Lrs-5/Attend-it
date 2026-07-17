@@ -327,3 +327,110 @@ $("#nextMonth").addEventListener("click", ()=>{
 loadMonth();
 
 })();
+
+// ================= EXPORT CURRENT MONTH =================
+
+document.getElementById("exportExcel").addEventListener("click", exportAttendance);
+
+function exportAttendance(){
+
+    const current = new Date(currentKey + "-01");
+
+    const counts = {
+        present:0,
+        wfh:0,
+        leave:0
+    };
+
+    Object.values(att?.days || {}).forEach(status=>{
+
+        if(status==="present") counts.present++;
+
+        if(status==="wfh") counts.wfh++;
+
+        if(status==="leave") counts.leave++;
+
+    });
+
+    const working = plan?.working || 0;
+
+    const attended = counts.present + counts.wfh;
+
+    const attendance =
+        working
+        ? Math.round(attended / Math.max(working - counts.leave,1) * 100)
+        : 0;
+
+    const rows = [];
+
+    Object.keys(att.days || {})
+        .sort()
+        .forEach(date=>{
+
+            rows.push({
+
+                Date:date,
+
+                Status:
+                    att.days[date]=="present"
+                    ? "WFO"
+                    : att.days[date].toUpperCase()
+
+            });
+
+        });
+
+    rows.push({});
+
+    rows.push({
+        Metric:"Working Days",
+        Value:working
+    });
+
+    rows.push({
+        Metric:"Planned WFO",
+        Value:plan.office
+    });
+
+    rows.push({
+        Metric:"Planned WFH",
+        Value:plan.wfh
+    });
+
+    rows.push({
+        Metric:"WFO Completed",
+        Value:counts.present
+    });
+
+    rows.push({
+        Metric:"WFH Completed",
+        Value:counts.wfh
+    });
+
+    rows.push({
+        Metric:"Leave Used",
+        Value:counts.leave
+    });
+
+    rows.push({
+        Metric:"Attendance %",
+        Value:attendance+"%"
+    });
+
+    const ws = XLSX.utils.json_to_sheet(rows);
+
+    const wb = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        current.toLocaleString("default",{month:"long"})
+    );
+
+    XLSX.writeFile(
+        wb,
+        `Attendance_${currentKey}.xlsx`
+    );
+
+    toast("Attendance exported");
+}

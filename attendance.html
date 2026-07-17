@@ -29,9 +29,18 @@
         <button class="icon-btn" id="menuBtn">≡</button>
         <h2 class="page-title">Attendance Tracker</h2>
         <div class="top-right">
-          <button class="btn btn-ghost ripple" id="reconfigBtn">Reconfigure Month</button>
-          <div class="avatar" id="topAvatar">JD</div>
-        </div>
+
+    <button class="btn ripple" id="exportExcel">
+        ⬇ Export Report
+    </button>
+
+    <button class="btn btn-ghost ripple" id="reconfigBtn">
+        Reconfigure Month
+    </button>
+
+    <div class="avatar" id="topAvatar">JD</div>
+
+</div>>
       </header>
       <section class="content">
         <!-- Setup Modal -->
@@ -131,6 +140,8 @@
       </section>
     </div>
   </div>
-  <script src="js/attendance.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="js/attendance.js"></script>
+
 </body>
 </html>

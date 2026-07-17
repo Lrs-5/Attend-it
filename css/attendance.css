@@ -1,5 +1,14 @@
 @import url("dashboard.css");
-.page-title{margin:0;font-size:18px;flex:1}
+.page-title{
+    margin:0;
+    font-size:18px;
+    font-weight:700;
+    flex:1;
+    min-width:0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
 .stat-row{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
 .stat-row .stat{padding:16px}
 .mini-bar{height:6px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;margin-top:6px}
@@ -85,4 +94,48 @@
 
 .month-nav h3{
     margin:0;
+}
+
+
+
+
+/* ===== Attendance Page Header Fix ===== */
+
+.topbar{
+    flex-wrap:nowrap;
+}
+
+.top-right{
+    margin-left:auto;
+    flex-wrap:nowrap;
+    gap:12px;
+}
+
+.top-right .btn,
+#exportExcel,
+#reconfigureBtn{
+    white-space:nowrap;
+    flex-shrink:0;
+}
+
+@media (max-width:1000px){
+
+    .topbar{
+        flex-wrap:wrap;
+    }
+
+    .page-title{
+        width:100%;
+        white-space:normal;
+        overflow:visible;
+        text-overflow:unset;
+    }
+
+    .top-right{
+        width:100%;
+        margin-left:0;
+        justify-content:flex-start;
+        flex-wrap:wrap;
+    }
+
 }
